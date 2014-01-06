@@ -27,6 +27,8 @@ class State(object):
 
         next_possible_states = []
         next_possible_states_probability = []
+        enter_probability = 0
+        total_enter_probability = 0
 
         for state in self._states:
 
@@ -36,9 +38,11 @@ class State(object):
 
             # Add possible States
             next_possible_states.append(state)
-            next_possible_states_probability.append(state.get_enter_probability())
+            enter_probability = state.get_enter_probability()
+            total_enter_probability += enter_probability
+            next_possible_states_probability.append(enter_probability)
 
-        prob = uniform(0, 1)
+        prob = uniform(0, total_enter_probability)
         actual_prob = 0
 
         for i in range(len(next_possible_states)):
