@@ -23,7 +23,7 @@ class State(object):
         Get the next state
         return {State}
     """
-    def _get_next_state(self, old_state):
+    def _get_next_state(self, old_state=None):
 
         next_possible_states = []
         next_possible_states_probability = []
@@ -41,6 +41,9 @@ class State(object):
             enter_probability = state.get_enter_probability(old_state)
             total_enter_probability += enter_probability
             next_possible_states_probability.append(enter_probability)
+
+        if total_enter_probability < 1:
+            total_enter_probability = 1
 
         prob = uniform(0, total_enter_probability)
         actual_prob = 0
@@ -61,14 +64,14 @@ class State(object):
         Probability for entering the state
         returns number
     """
-    def get_enter_probability(self, old_state):
+    def get_enter_probability(self, old_state=None):
         return 1
 
     """
         boolean condition, for entering the state
         returns bool
     """
-    def pre_condition(self, old_state):
+    def pre_condition(self, old_state=None):
         return True
 
     """

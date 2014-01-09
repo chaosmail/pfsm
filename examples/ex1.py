@@ -13,6 +13,8 @@
 import pfsm
 
 
+print(pfsm.__file__)
+
 class IdleState(pfsm.State):
 
     def __init__(self):
@@ -37,7 +39,7 @@ class WorkState(pfsm.State):
     def do_post_state(self):
         print("Leaving Work State")
 
-    def get_enter_probability(self):
+    def get_enter_probability(self, old_state=None):
         return 0.8
 
 
@@ -57,7 +59,7 @@ class HomeState(pfsm.State):
     def do_post_state(self):
         print("Leaving Home State")
 
-    def get_enter_probability(self):
+    def get_enter_probability(self, old_state=None):
         return 0.2
 
 
