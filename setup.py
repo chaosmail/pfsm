@@ -10,4 +10,4 @@ setup(name = "pfsm",
     url = "http://www.chaosmail.at",
     packages = ['pfsm'],
     package_data = {'package' : files }
-) 
+)

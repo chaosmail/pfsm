@@ -27,7 +27,6 @@ class State(object):
 
         next_possible_states = []
         next_possible_states_probability = []
-        enter_probability = 0
         total_enter_probability = 0
 
         for state in self._states:
@@ -36,16 +35,27 @@ class State(object):
             if not state.pre_condition(old_state):
                 continue
 
+            # Get enter probability
+            enter_probability = state.get_enter_probability(old_state)
+
+            # if probability is 1, return this state immediately
+            if enter_probability is 1:
+                return state
+
             # Add possible States
             next_possible_states.append(state)
-            enter_probability = state.get_enter_probability(old_state)
             total_enter_probability += enter_probability
             next_possible_states_probability.append(enter_probability)
 
-        if total_enter_probability < 1:
-            total_enter_probability = 1
+        # If total enter probability greater than 1, then there was an error
+        if total_enter_probability > 1:
+            raise ValueError("Total enter probability cannot be greater than 1")
 
-        prob = uniform(0, total_enter_probability)
+        # If total enter probability smaller than 0, then there was an error
+        if total_enter_probability < 0:
+            raise ValueError("Total enter probability cannot be smaller than 0")
+
+        prob = uniform(0, 1)
         actual_prob = 0
 
         for i in range(len(next_possible_states)):
