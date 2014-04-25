@@ -9,6 +9,7 @@ class State(object):
 
     def __init__(self):
         self._states = []
+        self.current_total_prob = 0
 
     """
         Add possible states, that can be entered from the actual one
@@ -29,6 +30,8 @@ class State(object):
         next_possible_states_probability = []
         total_enter_probability = 0
 
+        self.current_total_prob = 0
+
         for state in self._states:
 
             # Check if can enter this state
@@ -37,6 +40,9 @@ class State(object):
 
             # Get enter probability
             enter_probability = state.get_enter_probability(old_state)
+
+            # Set the current total probability
+            self.current_total_prob += enter_probability
 
             # if probability is 1, return this state immediately
             if enter_probability is 1:
@@ -61,7 +67,7 @@ class State(object):
         for i in range(len(next_possible_states)):
 
             # Check probability for entering state
-            if prob >= actual_prob and prob < (actual_prob + next_possible_states_probability[i]):
+            if prob > actual_prob and prob <= (actual_prob + next_possible_states_probability[i]):
                 # Return the next State
                 return next_possible_states[i]
             else:
