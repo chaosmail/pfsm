@@ -12,13 +12,24 @@ class State(object):
         self.current_total_prob = 0
 
     """
-        Add possible states, that can be entered from the actual one
+        Add possible state, that can be entered from the actual one
     """
     def add_state(self, state):
         if isinstance(state, State):
             self._states.append(state)
         else:
             raise ValueError("State must be from type {State}")
+
+    """
+        Add possible states, that can be entered from the actual one
+    """
+    def add_states(self, states):
+
+        for state in states:
+            if isinstance(state, State):
+                self._states.append(state)
+            else:
+                raise ValueError("State must be from type {State}")
 
     """
         Get the next state
